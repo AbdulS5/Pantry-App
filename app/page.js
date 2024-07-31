@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useState, useEffect } from "react";
 import { firestore } from "@/firebase";
 import { Box, Modal, Stack, Typography, TextField, Button, AppBar, Toolbar } from "@mui/material";
@@ -76,7 +75,7 @@ export default function Home() {
         flexDirection="column"
         alignItems="center"
         width="100%"
-        maxWidth="1200px"
+        maxWidth="800px"
         padding={2}
         sx={{
           backgroundColor: "#f5f5f5",
@@ -149,7 +148,7 @@ export default function Home() {
           >
             <Typography variant="h4">Inventory Items</Typography>
           </Box>
-          <Stack width="100%" height="300px" spacing={2} overflow="auto" padding={2}>
+          <Stack width="100%" spacing={2} overflow="auto" padding={2}>
             {inventory.length > 0 ? (
               inventory.map(({ name, quantity }) => (
                 <Box
@@ -167,10 +166,10 @@ export default function Home() {
                   <Typography variant="h5" color="#333">
                     {name.charAt(0).toUpperCase() + name.slice(1)}
                   </Typography>
-                  <Typography variant="h5" color="#333">
-                    {quantity}
-                  </Typography>
-                  <Stack direction="row" spacing={2}>
+                  <Stack direction="row" alignItems="center" spacing={2}>
+                    <Typography variant="h5" color="#333">
+                      {quantity}
+                    </Typography>
                     <Button variant="contained" color="primary" onClick={() => addItem(name)}>
                       Add
                     </Button>
