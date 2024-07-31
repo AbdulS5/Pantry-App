@@ -1,9 +1,18 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import { firestore } from "@/firebase";
 import { Box, Modal, Stack, Typography, TextField, Button, AppBar, Toolbar } from "@mui/material";
 import { collection, deleteDoc, query, getDocs, doc, getDoc, setDoc } from "firebase/firestore";
+
+// Dynamically import components that might depend on `window`
+const AppBarComponent = dynamic(() => import("@mui/material/AppBar"), { ssr: false });
+const ToolbarComponent = dynamic(() => import("@mui/material/Toolbar"), { ssr: false });
+const TextFieldComponent = dynamic(() => import("@mui/material/TextField"), { ssr: false });
+const ButtonComponent = dynamic(() => import("@mui/material/Button"), { ssr: false });
+const ModalComponent = dynamic(() => import("@mui/material/Modal"), { ssr: false });
+const StackComponent = dynamic(() => import("@mui/material/Stack"), { ssr: false });
 
 export default function Home() {
   const [inventory, setInventory] = useState([]);
@@ -64,13 +73,13 @@ export default function Home() {
 
   return (
     <Box width="100vw" height="100vh" display="flex" flexDirection="column" alignItems="center" gap={2} padding={3}>
-      <AppBar position="static">
-        <Toolbar>
+      <AppBarComponent position="static">
+        <ToolbarComponent>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Pantry Management
           </Typography>
-        </Toolbar>
-      </AppBar>
+        </ToolbarComponent>
+      </AppBarComponent>
       <Box
         component="main"
         display="flex"
@@ -86,7 +95,7 @@ export default function Home() {
           marginTop: 3,
         }}
       >
-        <TextField
+        <TextFieldComponent
           label="Search Items"
           variant="outlined"
           fullWidth
@@ -94,10 +103,10 @@ export default function Home() {
           onChange={(e) => setSearchTerm(e.target.value)}
           sx={{ marginBottom: 2 }}
         />
-        <Button variant="contained" color="primary" onClick={handleOpen}>
+        <ButtonComponent variant="contained" color="primary" onClick={handleOpen}>
           Add New Item
-        </Button>
-        <Modal open={open} onClose={handleClose}>
+        </ButtonComponent>
+        <ModalComponent open={open} onClose={handleClose}>
           <Box
             position="absolute"
             top="50%"
@@ -116,8 +125,8 @@ export default function Home() {
             }}
           >
             <Typography variant="h6">Add Item</Typography>
-            <Stack width="100%" direction="row" spacing={2}>
-              <TextField
+            <StackComponent width="100%" direction="row" spacing={2}>
+              <TextFieldComponent
                 variant="outlined"
                 fullWidth
                 value={itemName}
@@ -125,7 +134,7 @@ export default function Home() {
                   setItemName(e.target.value);
                 }}
               />
-              <Button
+              <ButtonComponent
                 variant="outlined"
                 onClick={() => {
                   addItem(itemName);
@@ -134,10 +143,10 @@ export default function Home() {
                 }}
               >
                 Add
-              </Button>
-            </Stack>
+              </ButtonComponent>
+            </StackComponent>
           </Box>
-        </Modal>
+        </ModalComponent>
         <Box border="1px solid #333" width="100%" marginTop={2} borderRadius={2} overflow="hidden">
           <Box
             width="100%"
@@ -150,7 +159,7 @@ export default function Home() {
           >
             <Typography variant="h4">Inventory Items</Typography>
           </Box>
-          <Stack width="100%" spacing={2} overflow="auto" padding={2}>
+          <StackComponent width="100%" spacing={2} overflow="auto" padding={2}>
             {inventory.length > 0 ? (
               inventory.map(({ name, quantity }) => (
                 <Box
@@ -168,17 +177,17 @@ export default function Home() {
                   <Typography variant="h5" color="#333">
                     {name.charAt(0).toUpperCase() + name.slice(1)}
                   </Typography>
-                  <Stack direction="row" alignItems="center" spacing={2}>
+                  <StackComponent direction="row" alignItems="center" spacing={2}>
                     <Typography variant="h5" color="#333">
                       {quantity}
                     </Typography>
-                    <Button variant="contained" color="primary" onClick={() => addItem(name)}>
+                    <ButtonComponent variant="contained" color="primary" onClick={() => addItem(name)}>
                       Add
-                    </Button>
-                    <Button variant="contained" color="secondary" onClick={() => removeItem(name)}>
+                    </ButtonComponent>
+                    <ButtonComponent variant="contained" color="secondary" onClick={() => removeItem(name)}>
                       Remove
-                    </Button>
-                  </Stack>
+                    </ButtonComponent>
+                  </StackComponent>
                 </Box>
               ))
             ) : (
@@ -186,7 +195,7 @@ export default function Home() {
                 No items found
               </Typography>
             )}
-          </Stack>
+          </StackComponent>
         </Box>
       </Box>
     </Box>
