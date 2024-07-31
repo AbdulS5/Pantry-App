@@ -54,7 +54,9 @@ export default function Home() {
   };
 
   useEffect(() => {
-    updateInventory();
+    if (typeof window !== "undefined") {
+      updateInventory();
+    }
   }, [searchTerm]);
 
   const handleOpen = () => setOpen(true);
